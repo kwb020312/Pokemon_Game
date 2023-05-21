@@ -13,5 +13,5 @@ image.src = "./img/Pellet Town.png";
 console.log(image);
 
 image.onload = () => {
-  c.drawImage(image, 0, 0);
+  c.drawImage(image, -754, -550);
 };
