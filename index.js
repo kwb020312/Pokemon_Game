@@ -10,8 +10,13 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 const image = new Image();
 image.src = "./img/Pellet Town.png";
 
-console.log(image);
-
 image.onload = () => {
-  c.drawImage(image, -754, -550);
+  c.drawImage(image, -750, -550);
+};
+
+const playerImage = new Image();
+playerImage.src = "./img/playerDown.png";
+
+playerImage.onload = () => {
+  c.drawImage(playerImage, 0, 0);
 };
