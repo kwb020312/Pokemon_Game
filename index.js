@@ -13,8 +13,28 @@ image.src = "./img/Pellet Town.png";
 const playerImage = new Image();
 playerImage.src = "./img/playerDown.png";
 
-image.onload = () => {
-  c.drawImage(image, -745, -600);
+class Sprite {
+  constructor({ position, velocity, image }) {
+    this.position = position;
+    this.image = image;
+  }
+
+  draw() {
+    c.drawImage(this.image, -745, -600);
+  }
+}
+
+const background = new Sprite({
+  position: {
+    x: -745,
+    y: -600,
+  },
+  image: image,
+});
+
+function animate() {
+  window.requestAnimationFrame(animate);
+  background.draw();
   c.drawImage(
     playerImage,
     0,
@@ -26,4 +46,23 @@ image.onload = () => {
     playerImage.width / 4,
     playerImage.height
   );
-};
+}
+
+animate();
+
+window.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "w":
+      console.log("press w key");
+      break;
+    case "a":
+      console.log("press a key");
+      break;
+    case "s":
+      console.log("press s key");
+      break;
+    case "d":
+      console.log("press d key");
+      break;
+  }
+});
