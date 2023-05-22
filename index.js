@@ -20,7 +20,7 @@ class Sprite {
   }
 
   draw() {
-    c.drawImage(this.image, -745, -600);
+    c.drawImage(this.image, this.position.x, this.position.y);
   }
 }
 
@@ -31,6 +31,21 @@ const background = new Sprite({
   },
   image: image,
 });
+
+const keys = {
+  w: {
+    pressed: false,
+  },
+  a: {
+    pressed: false,
+  },
+  s: {
+    pressed: false,
+  },
+  d: {
+    pressed: false,
+  },
+};
 
 function animate() {
   window.requestAnimationFrame(animate);
@@ -46,6 +61,10 @@ function animate() {
     playerImage.width / 4,
     playerImage.height
   );
+
+  if (keys.w.pressed) {
+    background.position.y += 3;
+  }
 }
 
 animate();
@@ -53,16 +72,37 @@ animate();
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "w":
-      console.log("press w key");
+      keys.w.pressed = true;
       break;
     case "a":
-      console.log("press a key");
+      keys.a.pressed = true;
       break;
     case "s":
-      console.log("press s key");
+      keys.s.pressed = true;
       break;
     case "d":
-      console.log("press d key");
+      keys.d.pressed = true;
+      break;
+    default:
+      break;
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  switch (e.key) {
+    case "w":
+      keys.w.pressed = false;
+      break;
+    case "a":
+      keys.a.pressed = false;
+      break;
+    case "s":
+      keys.s.pressed = false;
+      break;
+    case "d":
+      keys.d.pressed = false;
+      break;
+    default:
       break;
   }
 });
