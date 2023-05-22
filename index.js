@@ -14,6 +14,14 @@ const playerImage = new Image();
 playerImage.src = "./img/playerDown.png";
 
 image.onload = () => {
-  c.drawImage(image, -750, -550);
-  c.drawImage(playerImage, 0, 0);
+  c.drawImage(image, -745, -600);
+  c.drawImage(
+    playerImage,
+    0,
+    0,
+    0,
+    0,
+    canvas.width / 2 - playerImage.width / 2,
+    canvas.height / 2 - playerImage.height / 2
+  );
 };
