@@ -141,9 +141,8 @@ function animate() {
   });
   player.draw();
 
+  // 플레이어 이동 감지
   if (keys.w.pressed && lastKey === "w") {
-    // 플레이어 이동 감지
-    background.position.y += 3;
     movables.forEach((movable) => {
       movable.position.y += 3;
     });
