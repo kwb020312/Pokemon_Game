@@ -20,7 +20,7 @@ class Boundary {
   }
 
   draw() {
-    c.fillStyle = "red";
+    c.fillStyle = "rgba(255, 0, 0, 0.1)";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }
@@ -28,7 +28,7 @@ class Boundary {
 const boundaries = [];
 const offset = {
   x: -745,
-  y: -600,
+  y: -630,
 };
 
 collisionsMap.forEach((row, i) => {
@@ -127,36 +127,111 @@ function animate() {
   background.draw();
   boundaries.forEach((boundary) => {
     boundary.draw();
-
-    // 플레이어 충돌 감지
-    if (
-      rectangularCollision({
-        rectangle1: player,
-        rectangle2: boundary,
-      })
-    ) {
-      console.log("아얏! 충돌됨");
-    }
   });
   player.draw();
 
+  let moving = true;
   // 플레이어 이동 감지
   if (keys.w.pressed && lastKey === "w") {
-    movables.forEach((movable) => {
-      movable.position.y += 3;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      // 플레이어 충돌 감지
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y + 3,
+            },
+          },
+        })
+      ) {
+        console.log("아얏! 충돌됨");
+        moving = false;
+        break;
+      }
+    }
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.y += 3;
+      });
   } else if (keys.a.pressed && lastKey === "a") {
-    movables.forEach((movable) => {
-      movable.position.x += 3;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      // 플레이어 충돌 감지
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x + 3,
+              y: boundary.position.y,
+            },
+          },
+        })
+      ) {
+        console.log("아얏! 충돌됨");
+        moving = false;
+        break;
+      }
+    }
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.x += 3;
+      });
   } else if (keys.s.pressed && lastKey === "s") {
-    movables.forEach((movable) => {
-      movable.position.y -= 3;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      // 플레이어 충돌 감지
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y - 3,
+            },
+          },
+        })
+      ) {
+        console.log("아얏! 충돌됨");
+        moving = false;
+        break;
+      }
+    }
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.y -= 3;
+      });
   } else if (keys.d.pressed && lastKey === "d") {
-    movables.forEach((movable) => {
-      movable.position.x -= 3;
-    });
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      // 플레이어 충돌 감지
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x - 3,
+              y: boundary.position.y,
+            },
+          },
+        })
+      ) {
+        console.log("아얏! 충돌됨");
+        moving = false;
+        break;
+      }
+    }
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.x -= 3;
+      });
   }
 }
 
