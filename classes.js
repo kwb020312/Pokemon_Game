@@ -2,7 +2,7 @@ class Sprite {
   constructor({ position, velocity, image, frames = { max: 1 } }) {
     this.position = position;
     this.image = image;
-    this.frames = frames;
+    this.frames = { ...frames, val: 0, elapsed: 0 };
 
     this.image.onload = () => {
       this.width = this.image.width / this.frames.max;
@@ -13,7 +13,7 @@ class Sprite {
   draw() {
     c.drawImage(
       this.image,
-      0,
+      this.frames.val * this.width,
       0,
       this.image.width / this.frames.max,
       this.image.height,
@@ -22,6 +22,15 @@ class Sprite {
       this.image.width / this.frames.max,
       this.image.height
     );
+
+    if (this.frames.max > 1) {
+      this.frames.elapsed++;
+    }
+
+    if (this.frames.elapsed % 20 === 0) {
+      if (this.frames.val < this.frames.max - 1) this.frames.val++;
+      else this.frames.val = 0;
+    }
   }
 }
 
