@@ -1,8 +1,6 @@
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
-console.log(gsap);
-
 canvas.width = 1024;
 canvas.height = 576;
 
@@ -174,6 +172,18 @@ function animate() {
       ) {
         console.log("배틀존 입장!");
         battle.initiated = true;
+        gsap.to("#overlappingDiv", {
+          opacity: 1,
+          repeat: 3,
+          yoyo: true,
+          duration: 0.4,
+          onComplete() {
+            gsap.to("#overlappingDiv", {
+              opacity: 1,
+              duration: 0.4,
+            });
+          },
+        });
         break;
       }
     }
