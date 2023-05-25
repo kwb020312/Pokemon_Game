@@ -3,7 +3,7 @@ class Sprite {
     position,
     velocity,
     image,
-    frames = { max: 1 },
+    frames = { max: 1, hold: 10 },
     sprites,
     animate = false,
   }) {
@@ -38,7 +38,7 @@ class Sprite {
       this.frames.elapsed++;
     }
 
-    if (this.frames.elapsed % 20 === 0) {
+    if (this.frames.elapsed % this.frames.hold === 0) {
       if (this.frames.val < this.frames.max - 1) this.frames.val++;
       else this.frames.val = 0;
     }

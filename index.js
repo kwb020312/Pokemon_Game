@@ -76,6 +76,7 @@ const player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
+    hold: 20,
   },
   sprites: {
     up: playerUpImage,
@@ -338,6 +339,7 @@ const draggle = new Sprite({
   image: draggleImage,
   frames: {
     max: 4,
+    hold: 30,
   },
   animate: true,
 });
