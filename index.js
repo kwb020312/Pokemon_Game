@@ -126,6 +126,11 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     rectangle1.position.y + rectangle1.height >= rectangle2.position.y
   );
 }
+
+const battle = {
+  initiated: false,
+};
+
 function animate() {
   window.requestAnimationFrame(animate);
   background.draw();
@@ -137,6 +142,8 @@ function animate() {
   });
   player.draw();
   foreground.draw();
+
+  if (battle.initiated) return;
 
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battleZones.length; i++) {
@@ -161,6 +168,7 @@ function animate() {
         Math.random() < 0.01
       ) {
         console.log("배틀존 입장!");
+        battle.initiated = true;
         break;
       }
     }
