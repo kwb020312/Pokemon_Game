@@ -143,6 +143,9 @@ function animate() {
   player.draw();
   foreground.draw();
 
+  let moving = true;
+  player.moving = false;
+
   if (battle.initiated) return;
 
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
@@ -174,8 +177,6 @@ function animate() {
     }
   }
 
-  let moving = true;
-  player.moving = false;
   // 플레이어 이동 감지
   if (keys.w.pressed && lastKey === "w") {
     player.moving = true;
