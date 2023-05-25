@@ -316,8 +316,6 @@ function animate() {
   }
 }
 
-// animate();
-
 const battleBackgroundImage = new Image();
 battleBackgroundImage.src = "./img/battleBackground.png";
 const battleBackground = new Sprite({
@@ -344,13 +342,31 @@ const draggle = new Sprite({
   animate: true,
 });
 
+const embyImage = new Image();
+embyImage.src = "./img/embySprite.png";
+
+const emby = new Sprite({
+  position: {
+    x: 280,
+    y: 325,
+  },
+  image: embyImage,
+  frames: {
+    max: 4,
+    hold: 30,
+  },
+  animate: true,
+});
+
 function animateBattle() {
   window.requestAnimationFrame(animateBattle);
   console.log("animate Battle");
   battleBackground.draw();
   draggle.draw();
+  emby.draw();
 }
 
+// animate();
 animateBattle();
 
 let lastKey = "";
