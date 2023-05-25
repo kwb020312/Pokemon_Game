@@ -144,7 +144,7 @@ function animate() {
   foreground.draw();
 
   let moving = true;
-  player.moving = false;
+  player.animate = false;
 
   console.log(animationId);
 
@@ -201,7 +201,7 @@ function animate() {
 
   // 플레이어 이동 감지
   if (keys.w.pressed && lastKey === "w") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.up;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -229,7 +229,7 @@ function animate() {
         movable.position.y += 3;
       });
   } else if (keys.a.pressed && lastKey === "a") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.left;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -257,7 +257,7 @@ function animate() {
         movable.position.x += 3;
       });
   } else if (keys.s.pressed && lastKey === "s") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.down;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -285,7 +285,7 @@ function animate() {
         movable.position.y -= 3;
       });
   } else if (keys.d.pressed && lastKey === "d") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.right;
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -327,10 +327,26 @@ const battleBackground = new Sprite({
   image: battleBackgroundImage,
 });
 
+const draggleImage = new Image();
+draggleImage.src = "./img/draggleSprite.png";
+
+const draggle = new Sprite({
+  position: {
+    x: 800,
+    y: 100,
+  },
+  image: draggleImage,
+  frames: {
+    max: 4,
+  },
+  animate: true,
+});
+
 function animateBattle() {
   window.requestAnimationFrame(animateBattle);
   console.log("animate Battle");
   battleBackground.draw();
+  draggle.draw();
 }
 
 animateBattle();
