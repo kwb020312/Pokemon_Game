@@ -6,8 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>포켓몬 게임</title>
     <style>
+      @font-face {
+        font-family: "bitbit";
+        src: url("./font/DNFBitBitTTF.ttf");
+      }
+
+      * {
+        font-family: "bitbit", Arial, sans-serif;
+      }
+
       body {
         background-color: black;
+      }
+
+      h1 {
+        margin: 0;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      button:hover {
+        background-color: #ddd;
       }
     </style>
   </head>
@@ -27,6 +50,41 @@
         "
       ></div>
       <canvas></canvas>
+
+      <div
+        style="
+          background-color: white;
+          height: 140px;
+          position: absolute;
+          bottom: 4px;
+          left: 0;
+          right: 0;
+          border-top: 4px black solid;
+          display: flex;
+        "
+      >
+        <div
+          style="
+            width: 66.66%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+          "
+        >
+          <button>공격1</button>
+          <button>공격2</button>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 33.33%;
+            border-left: 4px black solid;
+          "
+        >
+          <h1 style="font-size: 24px">공격 종류</h1>
+        </div>
+      </div>
     </div>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
