@@ -1,11 +1,11 @@
 const attacks = {
   "몸통 박치기": {
-    name: "Tackle",
+    name: "몸통 박치기",
     damage: 10,
     type: "Normal",
   },
   "파이어 볼": {
-    name: "Fireball",
+    name: "파이어 볼",
     damage: 24,
     type: "Fire",
   },

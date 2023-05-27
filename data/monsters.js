@@ -32,6 +32,6 @@ const monsters = {
     animate: true,
     isEnemy: true,
     name: "꼬물이",
-    attacks: [],
+    attacks: [attacks["몸통 박치기"], attacks["파이어 볼"]],
   },
 };

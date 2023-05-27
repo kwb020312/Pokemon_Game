@@ -105,9 +105,10 @@ class Monster extends Sprite {
     this.health -= attack.damage;
 
     switch (attack.name) {
-      case "Fireball":
+      case "파이어 볼":
         const fireballImage = new Image();
         fireballImage.src = "./img/fireball.png";
+        console.log(fireballImage);
         const fireball = new Sprite({
           position: {
             x: this.position.x,
@@ -150,7 +151,7 @@ class Monster extends Sprite {
         });
 
         break;
-      case "Tackle":
+      case "몸통 박치기":
         const tl = gsap.timeline();
 
         let movementDistance = 20;

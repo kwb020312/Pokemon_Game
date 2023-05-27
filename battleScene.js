@@ -45,16 +45,12 @@ document.querySelectorAll("button").forEach((button) => {
       renderedSprites,
     });
 
+    const randomAttack =
+      draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)];
+
     queue.push(() => {
       draggle.attack({
-        attack: attacks["몸통 박치기"],
-        recipient: emby,
-        renderedSprites,
-      });
-    });
-    queue.push(() => {
-      draggle.attack({
-        attack: attacks["파이어 볼"],
+        attack: randomAttack,
         recipient: emby,
         renderedSprites,
       });
