@@ -8,42 +8,18 @@ const battleBackground = new Sprite({
   image: battleBackgroundImage,
 });
 
-const draggleImage = new Image();
-draggleImage.src = "./img/draggleSprite.png";
+const draggle = new Monster(monsters.Draggle);
 
-const draggle = new Sprite({
-  position: {
-    x: 800,
-    y: 100,
-  },
-  image: draggleImage,
-  frames: {
-    max: 4,
-    hold: 30,
-  },
-  animate: true,
-  isEnemy: true,
-  name: "꼬물이",
-});
-
-const embyImage = new Image();
-embyImage.src = "./img/embySprite.png";
-
-const emby = new Sprite({
-  position: {
-    x: 280,
-    y: 325,
-  },
-  image: embyImage,
-  frames: {
-    max: 4,
-    hold: 30,
-  },
-  animate: true,
-  name: "불꽃이",
-});
+const emby = new Monster(monsters.Emby);
 
 const renderedSprites = [draggle, emby];
+
+emby.attacks.forEach((attack) => {
+  const button = document.createElement("button");
+  button.innerHTML = attack.name;
+  document.querySelector("#attacksBox").append(button);
+});
+
 function animateBattle() {
   window.requestAnimationFrame(animateBattle);
   console.log("animate Battle");
