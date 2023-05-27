@@ -7,6 +7,7 @@ class Sprite {
     sprites,
     animate = false,
     isEnemy = false,
+    rotation = 0,
   }) {
     this.position = position;
     this.image = image;
@@ -21,10 +22,20 @@ class Sprite {
     this.opacity = 1;
     this.health = 100;
     this.isEnemy = isEnemy;
+    this.rotation = rotation;
   }
 
   draw() {
     c.save();
+    c.translate(
+      this.position.x + this.width / 2,
+      this.position.y + this.health / 2
+    );
+    c.rotate(this.rotation);
+    c.translate(
+      -this.position.x - this.width / 2,
+      -this.position.y - this.health / 2
+    );
     c.globalAlpha = this.opacity;
     c.drawImage(
       this.image,
@@ -52,7 +63,17 @@ class Sprite {
     }
   }
 
-  attack({ attack, recipient }) {
+  attack({ attack, recipient, renderedSprites }) {
+    let healthBar = "#enemyHealthBar";
+    let rotation = 1;
+
+    if (this.isEnemy) {
+      healthBar = "#playerHealthBar";
+      rotation = -2.2;
+    }
+
+    this.health -= attack.damage;
+
     switch (attack.name) {
       case "Fireball":
         const fireballImage = new Image();
@@ -63,19 +84,47 @@ class Sprite {
             y: this.position.y,
           },
           image: fireballImage,
+          frames: {
+            max: 4,
+            hold: 10,
+          },
+          animate: true,
+          rotation,
         });
+
+        renderedSprites.splice(1, 0, fireball);
+
+        gsap.to(fireball.position, {
+          x: recipient.position.x,
+          y: recipient.position.y,
+          onComplete: () => {
+            // 적 타격 성공시 효과
+            gsap.to(healthBar, {
+              width: this.health + "%",
+            });
+            gsap.to(recipient.position, {
+              x: recipient.position.x + 10,
+              yoyo: true,
+              repeat: 5,
+              duration: 0.08,
+            });
+
+            gsap.to(recipient, {
+              opacity: 0,
+              repeat: 5,
+              yoyo: true,
+              duration: 0.08,
+            });
+            renderedSprites.splice(1, 1);
+          },
+        });
+
         break;
       case "Tackle":
         const tl = gsap.timeline();
 
-        this.health -= attack.damage;
-
         let movementDistance = 20;
         if (this.isEnemy) movementDistance = -20;
-
-        let healthBar = "#enemyHealthBar";
-
-        if (this.isEnemy) healthBar = "#playerHealthBar";
 
         tl.to(this.position, {
           x: this.position.x - movementDistance,
@@ -84,7 +133,7 @@ class Sprite {
             x: this.position.x + movementDistance * 2,
             duration: 0.1,
             onComplete: () => {
-              // 적 HP
+              // 적 타격 성공시 효과
               gsap.to(healthBar, {
                 width: this.health + "%",
               });
