@@ -80,7 +80,7 @@ charactersMap.forEach((row, i) => {
           },
           scale: 3,
           animate: true,
-          dialogue: ["...", "Hey mister, have you seen my Doggochu?"],
+          dialogue: ["...", "저기요, 혹시 내 포켓몬 본적있소??"],
         })
       );
     }
