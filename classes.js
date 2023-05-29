@@ -113,7 +113,8 @@ class Monster extends Sprite {
   }
 
   faint() {
-    document.querySelector("#dialogueBox").innerHTML = this.name + " fainted!";
+    document.querySelector("#dialogueBox").innerHTML =
+      this.name + "이(가) 쓰러졌다!";
     gsap.to(this.position, {
       y: this.position.y + 20,
     });
@@ -126,8 +127,9 @@ class Monster extends Sprite {
 
   attack({ attack, recipient, renderedSprites }) {
     document.querySelector("#dialogueBox").style.display = "block";
-    document.querySelector("#dialogueBox").innerHTML =
-      this.name + " used " + attack.name;
+    document.querySelector(
+      "#dialogueBox"
+    ).innerHTML = `${this.name}이(가) ${attack.name}을(를) 사용했다!`;
 
     let healthBar = "#enemyHealthBar";
     if (this.isEnemy) healthBar = "#playerHealthBar";
