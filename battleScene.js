@@ -20,8 +20,10 @@ emby.attacks.forEach((attack) => {
   document.querySelector("#attacksBox").append(button);
 });
 
+let battleAnimationId;
+
 function animateBattle() {
-  window.requestAnimationFrame(animateBattle);
+  battleAnimationId = window.requestAnimationFrame(animateBattle);
   console.log("animate Battle");
   battleBackground.draw();
 
@@ -65,6 +67,19 @@ document.querySelectorAll("button").forEach((button) => {
       if (emby.health <= 0) {
         queue.push(() => {
           draggle.faint();
+        });
+        queue.push(() => {
+          gsap.to("#overlappingDiv", {
+            opacity: 1,
+            onComplete: () => {
+              cancelAnimationFrame(battleAnimationId);
+              animate();
+              document.querySelector("#userInterface").style.display = "none";
+              gsap.to("#overlappingDiv", {
+                opacity: 0,
+              });
+            },
+          });
         });
       }
     });
