@@ -18,7 +18,6 @@ const charactersMap = [];
 for (let i = 0; i < charactersMapData.length; i += 70) {
   charactersMap.push(charactersMapData.slice(i, 70 + i));
 }
-console.log(charactersMap);
 
 const boundaries = [];
 const offset = {
