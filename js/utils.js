@@ -13,7 +13,7 @@ function checkForCharacterCollision({
   characterOffset = { x: 0, y: 0 },
 }) {
   player.interactionAsset = null;
-  // monitor for character collision
+  // 캐릭터가 벽에 닿았는지 판단
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i];
 

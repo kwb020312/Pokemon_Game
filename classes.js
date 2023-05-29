@@ -163,7 +163,7 @@ class Monster extends Sprite {
           x: recipient.position.x,
           y: recipient.position.y,
           onComplete: () => {
-            // Enemy actually gets hit
+            // 상대방 공격이 적중한 경우
             audio.fireballHit.play();
             gsap.to(healthBar, {
               width: recipient.health + "%",
@@ -200,7 +200,7 @@ class Monster extends Sprite {
             x: this.position.x + movementDistance * 2,
             duration: 0.1,
             onComplete: () => {
-              // Enemy actually gets hit
+              // 상대방 공격이 적중한 경우
               audio.tackleHit.play();
               gsap.to(healthBar, {
                 width: recipient.health + "%",

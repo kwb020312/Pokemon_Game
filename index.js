@@ -64,7 +64,7 @@ oldManImg.src = "./img/oldMan/Idle.png";
 
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    // 1026 === villager
+    // 1026 === 주민
     if (symbol === 1026) {
       characters.push(
         new Character({
@@ -83,7 +83,7 @@ charactersMap.forEach((row, i) => {
         })
       );
     }
-    // 1031 === oldMan
+    // 1031 === 노인
     else if (symbol === 1031) {
       characters.push(
         new Character({
@@ -213,7 +213,7 @@ function animate() {
 
   if (battle.initiated) return;
 
-  // activate a battle
+  // 전투 활성화
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battleZones.length; i++) {
       const battleZone = battleZones[i];
@@ -236,7 +236,7 @@ function animate() {
         overlappingArea > (player.width * player.height) / 2 &&
         Math.random() < 0.01
       ) {
-        // deactivate current animation loop
+        // 애니메이션 루프 활성화
         window.cancelAnimationFrame(animationId);
 
         audio.Map.stop();
@@ -254,7 +254,7 @@ function animate() {
               opacity: 1,
               duration: 0.4,
               onComplete() {
-                // activate a new animation loop
+                // 애니메이션 루프 활성화
                 initBattle();
                 animateBattle();
                 gsap.to("#overlappingDiv", {
@@ -404,7 +404,6 @@ function animate() {
       });
   }
 }
-// animate()
 
 let lastKey = "";
 window.addEventListener("keydown", (e) => {
@@ -420,7 +419,7 @@ window.addEventListener("keydown", (e) => {
           return;
         }
 
-        // finish conversation
+        // 대화 종료
         player.isInteracting = false;
         player.interactionAsset.dialogueIndex = 0;
         document.querySelector("#characterDialogueBox").style.display = "none";
@@ -434,7 +433,7 @@ window.addEventListener("keydown", (e) => {
     case " ":
       if (!player.interactionAsset) return;
 
-      // beginning the conversation
+      // 대화 시작
       const firstMessage = player.interactionAsset.dialogue[0];
       document.querySelector("#characterDialogueBox").innerHTML = firstMessage;
       document.querySelector("#characterDialogueBox").style.display = "flex";
