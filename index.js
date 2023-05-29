@@ -79,7 +79,11 @@ charactersMap.forEach((row, i) => {
           },
           scale: 3,
           animate: true,
-          dialogue: ["...", "저기요, 혹시 내 포켓몬 본적있소??"],
+          dialogue: [
+            "...",
+            "저기요, 혹시 내 포켓몬 본적있소??",
+            "일곱색의 멋진 날개를 가진 포켓몬인데..",
+          ],
         })
       );
     }
@@ -97,7 +101,10 @@ charactersMap.forEach((row, i) => {
             hold: 60,
           },
           scale: 3,
-          dialogue: ["My bones hurt."],
+          dialogue: [
+            "바다에는 많은 포켓몬이 살고있대!",
+            "부두막은 아직 갈 수 없다던대..",
+          ],
         })
       );
     }
