@@ -14,10 +14,16 @@ for (let i = 0; i < battleZonesData.length; i += 70) {
   battleZonesMap.push(battleZonesData.slice(i, 70 + i));
 }
 
+const charactersMap = [];
+for (let i = 0; i < charactersMapData.length; i += 70) {
+  charactersMap.push(charactersMapData.slice(i, 70 + i));
+}
+console.log(charactersMap);
+
 const boundaries = [];
 const offset = {
-  x: -745,
-  y: -630,
+  x: -735,
+  y: -650,
 };
 
 collisionsMap.forEach((row, i) => {
@@ -50,6 +56,66 @@ battleZonesMap.forEach((row, i) => {
   });
 });
 
+const characters = [];
+const villagerImg = new Image();
+villagerImg.src = "./img/villager/Idle.png";
+
+const oldManImg = new Image();
+oldManImg.src = "./img/oldMan/Idle.png";
+
+charactersMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    // 1026 === villager
+    if (symbol === 1026) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: villagerImg,
+          frames: {
+            max: 4,
+            hold: 60,
+          },
+          scale: 3,
+          animate: true,
+          dialogue: ["...", "Hey mister, have you seen my Doggochu?"],
+        })
+      );
+    }
+    // 1031 === oldMan
+    else if (symbol === 1031) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: oldManImg,
+          frames: {
+            max: 4,
+            hold: 60,
+          },
+          scale: 3,
+          dialogue: ["My bones hurt."],
+        })
+      );
+    }
+
+    if (symbol !== 0) {
+      boundaries.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+        })
+      );
+    }
+  });
+});
+
 const image = new Image();
 image.src = "./img/Pellet Town.png";
 
@@ -76,13 +142,13 @@ const player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
-    hold: 20,
+    hold: 10,
   },
   sprites: {
     up: playerUpImage,
     left: playerLeftImage,
-    down: playerDownImage,
     right: playerRightImage,
+    down: playerDownImage,
   },
 });
 
@@ -117,16 +183,21 @@ const keys = {
   },
 };
 
-const movables = [background, ...boundaries, foreground, ...battleZones];
-
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-  );
-}
+const movables = [
+  background,
+  ...boundaries,
+  foreground,
+  ...battleZones,
+  ...characters,
+];
+const renderables = [
+  background,
+  ...boundaries,
+  ...battleZones,
+  ...characters,
+  player,
+  foreground,
+];
 
 const battle = {
   initiated: false,
@@ -134,23 +205,16 @@ const battle = {
 
 function animate() {
   const animationId = window.requestAnimationFrame(animate);
-  background.draw();
-  boundaries.forEach((boundary) => {
-    boundary.draw();
+  renderables.forEach((renderable) => {
+    renderable.draw();
   });
-  battleZones.forEach((battleZone) => {
-    battleZone.draw();
-  });
-  player.draw();
-  foreground.draw();
 
   let moving = true;
   player.animate = false;
 
-  console.log(animationId);
-
   if (battle.initiated) return;
 
+  // activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battleZones.length; i++) {
       const battleZone = battleZones[i];
@@ -173,8 +237,13 @@ function animate() {
         overlappingArea > (player.width * player.height) / 2 &&
         Math.random() < 0.01
       ) {
-        console.log("배틀존 입장!");
+        // deactivate current animation loop
         window.cancelAnimationFrame(animationId);
+
+        audio.Map.stop();
+        audio.initBattle.play();
+        audio.battle.play();
+
         battle.initiated = true;
         gsap.to("#overlappingDiv", {
           opacity: 1,
@@ -186,6 +255,8 @@ function animate() {
               opacity: 1,
               duration: 0.4,
               onComplete() {
+                // activate a new animation loop
+                initBattle();
                 animateBattle();
                 gsap.to("#overlappingDiv", {
                   opacity: 0,
@@ -200,13 +271,18 @@ function animate() {
     }
   }
 
-  // 플레이어 이동 감지
   if (keys.w.pressed && lastKey === "w") {
     player.animate = true;
     player.image = player.sprites.up;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 0, y: 3 },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
-      // 플레이어 충돌 감지
       if (
         rectangularCollision({
           rectangle1: player,
@@ -219,7 +295,6 @@ function animate() {
           },
         })
       ) {
-        console.log("아얏! 충돌됨");
         moving = false;
         break;
       }
@@ -232,9 +307,15 @@ function animate() {
   } else if (keys.a.pressed && lastKey === "a") {
     player.animate = true;
     player.image = player.sprites.left;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 3, y: 0 },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
-      // 플레이어 충돌 감지
       if (
         rectangularCollision({
           rectangle1: player,
@@ -247,7 +328,6 @@ function animate() {
           },
         })
       ) {
-        console.log("아얏! 충돌됨");
         moving = false;
         break;
       }
@@ -260,9 +340,15 @@ function animate() {
   } else if (keys.s.pressed && lastKey === "s") {
     player.animate = true;
     player.image = player.sprites.down;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 0, y: -3 },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
-      // 플레이어 충돌 감지
       if (
         rectangularCollision({
           rectangle1: player,
@@ -275,7 +361,6 @@ function animate() {
           },
         })
       ) {
-        console.log("아얏! 충돌됨");
         moving = false;
         break;
       }
@@ -288,9 +373,15 @@ function animate() {
   } else if (keys.d.pressed && lastKey === "d") {
     player.animate = true;
     player.image = player.sprites.right;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: -3, y: 0 },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
-      // 플레이어 충돌 감지
       if (
         rectangularCollision({
           rectangle1: player,
@@ -303,7 +394,6 @@ function animate() {
           },
         })
       ) {
-        console.log("아얏! 충돌됨");
         moving = false;
         break;
       }
@@ -315,10 +405,42 @@ function animate() {
       });
   }
 }
+// animate()
 
 let lastKey = "";
 window.addEventListener("keydown", (e) => {
+  if (player.isInteracting) {
+    switch (e.key) {
+      case " ":
+        player.interactionAsset.dialogueIndex++;
+
+        const { dialogueIndex, dialogue } = player.interactionAsset;
+        if (dialogueIndex <= dialogue.length - 1) {
+          document.querySelector("#characterDialogueBox").innerHTML =
+            player.interactionAsset.dialogue[dialogueIndex];
+          return;
+        }
+
+        // finish conversation
+        player.isInteracting = false;
+        player.interactionAsset.dialogueIndex = 0;
+        document.querySelector("#characterDialogueBox").style.display = "none";
+
+        break;
+    }
+    return;
+  }
+
   switch (e.key) {
+    case " ":
+      if (!player.interactionAsset) return;
+
+      // beginning the conversation
+      const firstMessage = player.interactionAsset.dialogue[0];
+      document.querySelector("#characterDialogueBox").innerHTML = firstMessage;
+      document.querySelector("#characterDialogueBox").style.display = "flex";
+      player.isInteracting = true;
+      break;
     case "w":
       keys.w.pressed = true;
       lastKey = "w";
@@ -327,15 +449,15 @@ window.addEventListener("keydown", (e) => {
       keys.a.pressed = true;
       lastKey = "a";
       break;
+
     case "s":
       keys.s.pressed = true;
       lastKey = "s";
       break;
+
     case "d":
       keys.d.pressed = true;
       lastKey = "d";
-      break;
-    default:
       break;
   }
 });
@@ -354,7 +476,13 @@ window.addEventListener("keyup", (e) => {
     case "d":
       keys.d.pressed = false;
       break;
-    default:
-      break;
+  }
+});
+
+let clicked = false;
+addEventListener("click", () => {
+  if (!clicked) {
+    audio.Map.play();
+    clicked = true;
   }
 });
