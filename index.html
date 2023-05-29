@@ -51,8 +51,24 @@
         "
       ></div>
 
-      <div id="userInterface" class="">
-        <!-- 꼬물이 상태창 -->
+      <canvas></canvas>
+      <div
+        id="characterDialogueBox"
+        style="
+          background-color: white;
+          height: 140px;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          border-top: 4px black solid;
+          display: none;
+          padding: 12px;
+        "
+      ></div>
+
+      <div id="userInterface" style="display: none">
+        <!-- Represents health bar of draggle (enemy) -->
         <div
           style="
             background-color: white;
@@ -60,11 +76,11 @@
             position: absolute;
             top: 50px;
             left: 50px;
-            border: 4px solid black;
+            border: 4px black solid;
             padding: 12px;
           "
         >
-          <h1 style="font-size: 24px">꼬물이</h1>
+          <h1 style="font-size: 16px">Draggle</h1>
           <div style="position: relative">
             <div
               style="height: 5px; background-color: #ccc; margin-top: 10px"
@@ -83,7 +99,7 @@
           </div>
         </div>
 
-        <!-- 불꽃이 상태창 -->
+        <!-- Represents health bar of emby (us) -->
         <div
           style="
             background-color: white;
@@ -91,11 +107,11 @@
             position: absolute;
             top: 330px;
             right: 50px;
-            border: 4px solid black;
+            border: 4px black solid;
             padding: 12px;
           "
         >
-          <h1 style="font-size: 24px">불꽃이</h1>
+          <h1 style="font-size: 16px">Emby</h1>
           <div style="position: relative">
             <div
               style="height: 5px; background-color: #ccc; margin-top: 10px"
@@ -114,14 +130,12 @@
           </div>
         </div>
 
-        <canvas></canvas>
-
         <div
           style="
             background-color: white;
             height: 140px;
             position: absolute;
-            bottom: 4px;
+            bottom: 0;
             left: 0;
             right: 0;
             border-top: 4px black solid;
@@ -142,7 +156,7 @@
               cursor: pointer;
             "
           >
-            fdafdd
+            sdkfjlsdajl
           </div>
           <div
             id="attacksBox"
@@ -161,21 +175,30 @@
               border-left: 4px black solid;
             "
           >
-            <h1 id="attackType" style="font-size: 24px">공격 종류</h1>
+            <h1 id="attackType" style="font-size: 16px">Attack Type</h1>
           </div>
         </div>
       </div>
     </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+      integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
       integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script src="data/audio.js"></script>
     <script src="data/battleZones.js"></script>
     <script src="data/collisions.js"></script>
     <script src="data/attacks.js"></script>
     <script src="data/monsters.js"></script>
+    <script src="data/characters.js"></script>
+    <script src="js/utils.js"></script>
     <script src="classes.js"></script>
     <script src="index.js"></script>
     <script src="battleScene.js"></script>
