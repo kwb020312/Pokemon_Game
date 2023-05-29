@@ -1,14 +1,14 @@
 const attacks = {
-  Tackle: {
-    name: "Tackle",
+  "몸통 박치기": {
+    name: "몸통 박치기",
     damage: 10,
-    type: "Normal",
+    type: "노멀",
     color: "black",
   },
-  Fireball: {
-    name: "Fireball",
+  "파이어 볼": {
+    name: "파이어 볼",
     damage: 25,
-    type: "Fire",
+    type: "불꽃",
     color: "red",
   },
 };

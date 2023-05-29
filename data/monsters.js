@@ -1,5 +1,5 @@
 const monsters = {
-  Emby: {
+  불꽃이: {
     position: {
       x: 280,
       y: 325,
@@ -12,10 +12,10 @@ const monsters = {
       hold: 30,
     },
     animate: true,
-    name: "Emby",
-    attacks: [attacks.Tackle, attacks.Fireball],
+    name: "불꽃이",
+    attacks: [attacks["몸통 박치기"], attacks["파이어 볼"]],
   },
-  Draggle: {
+  꼬물이: {
     position: {
       x: 800,
       y: 100,
@@ -29,7 +29,7 @@ const monsters = {
     },
     animate: true,
     isEnemy: true,
-    name: "Draggle",
-    attacks: [attacks.Tackle, attacks.Fireball],
+    name: "꼬물이",
+    attacks: [attacks["몸통 박치기"], attacks["파이어 볼"]],
   },
 };

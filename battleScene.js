@@ -21,8 +21,8 @@ function initBattle() {
   document.querySelector("#playerHealthBar").style.width = "100%";
   document.querySelector("#attacksBox").replaceChildren();
 
-  draggle = new Monster(monsters.Draggle);
-  emby = new Monster(monsters.Emby);
+  draggle = new Monster(monsters.꼬물이);
+  emby = new Monster(monsters.불꽃이);
   renderedSprites = [draggle, emby];
   queue = [];
 
@@ -32,7 +32,7 @@ function initBattle() {
     document.querySelector("#attacksBox").append(button);
   });
 
-  // our event listeners for our buttons (attack)
+  // 공격 관련 이벤트
   document.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML];
@@ -47,7 +47,7 @@ function initBattle() {
           draggle.faint();
         });
         queue.push(() => {
-          // fade back to black
+          // 전투 종료시
           gsap.to("#overlappingDiv", {
             opacity: 1,
             onComplete: () => {
@@ -66,7 +66,7 @@ function initBattle() {
         });
       }
 
-      // draggle or enemy attacks right here
+      // 상대방의 랜덤 공격 이벤트
       const randomAttack =
         draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)];
 
@@ -83,7 +83,7 @@ function initBattle() {
           });
 
           queue.push(() => {
-            // fade back to black
+            // 전투 종료시
             gsap.to("#overlappingDiv", {
               opacity: 1,
               onComplete: () => {
@@ -106,6 +106,7 @@ function initBattle() {
 
     button.addEventListener("mouseenter", (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML];
+      console.log(e.currentTarget.innerHTML);
       document.querySelector("#attackType").innerHTML = selectedAttack.type;
       document.querySelector("#attackType").style.color = selectedAttack.color;
     });
@@ -122,8 +123,6 @@ function animateBattle() {
 }
 
 animate();
-// initBattle()
-// animateBattle()
 
 document.querySelector("#dialogueBox").addEventListener("click", (e) => {
   if (queue.length > 0) {
